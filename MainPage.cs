@@ -8,17 +8,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WinForm_App_ESO_Tracker.BAL;
+using WinForm_App_ESO_Tracker.PAL;
 
 namespace WinForm_App_ESO_Tracker
 {
     public partial class MainPage : Form
     {
         //Intialize classes.
-        static SystemCheck status = new SystemCheck();
+        CoreFunctions core = new CoreFunctions();
 
         //Form variables.
         
-
         public MainPage()
         {
             InitializeComponent();
@@ -27,10 +27,37 @@ namespace WinForm_App_ESO_Tracker
             this.StartPosition = FormStartPosition.CenterScreen;
         }
 
-        //Form methods.
+        //Event methods.
         private void MainPage_Load(object sender, EventArgs e)
         {
-            dbStatus.Text = status.Load
+        }
+        private void MainPage_Shown(object sender, EventArgs e)
+        {
+            dbStatus.Text = core.System_Check();
+
+            Load_Character();
+        }
+
+        //Form methods.
+        private void Load_Character()
+        {
+            if (core.currentChar == "")
+            {
+                Form f = new PAL.aFile.SelectCharacter();
+                f.Show();
+            }
+        }
+
+        //ToolBar Methods
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form f = new PAL.zHelp.AboutBox();
+            f.Show();
+        }
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form f = new PAL.yTools.Options();
+            f.Show();
         }
     }
 }
